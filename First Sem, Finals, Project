@@ -1,0 +1,563 @@
+package project_finals;
+import java.util.*;
+public class Main {
+    public static void main(String[] args) {
+        Scanner user = new Scanner(System.in);
+        ArrayList<String> registrationInfo = new ArrayList<String>();
+        registrationInfo.add("Furina");
+        registrationInfo.add("furina123");
+        String username = "";
+        String password = "";
+        String newPassword, newUsername;
+
+        System.out.println("\n\n");
+
+        //Loop through the login system
+        while(true) {
+            System.out.print("[1.Register], [2.Login], [3.Exit]: ");
+            int infoInput = user.nextInt();
+            user.nextLine();
+
+                switch(infoInput){
+                    case 1:
+                    // User registration code 
+                    System.out.println("\nRegister");
+
+                    System.out.print("Enter new Username:");
+                    newUsername = user.nextLine();
+                    registrationInfo.add(newUsername);
+                
+                    System.out.print("Enter new Password:");
+                    newPassword = user.nextLine();
+                    registrationInfo.add(newPassword);
+
+                    System.out.println("Registration complete. Welcome, " + newUsername + " and your password is " + newPassword + "\n");
+                    break;
+
+                    case 2:
+                    // User login code 
+                    System.out.println("\nLogin");
+
+                    System.out.print("Enter Username:");
+                    username = user.nextLine();
+
+                    System.out.print("Enter Password:");
+                    password = user.nextLine();
+
+                    boolean isAuthenticated = false;
+                    for (int i = 0; i < registrationInfo.size(); i += 2) {
+                        if (registrationInfo.get(i).equals(username) && registrationInfo.get(i + 1).equals(password)) {
+                            isAuthenticated = true;
+                            break;
+                        }
+                    }
+
+                    if (isAuthenticated) {
+                        System.out.println("\nLogin successful! Welcome, " + username + ".");
+                    } else {
+                        System.out.println("\nLogin failed. Incorrect username or password.\n");
+                    }
+                    break;
+                    
+                    case 3:
+                    // Exit code 
+                    System.out.println("\nExiting...");
+                    return;
+
+                    default:
+                    System.out.println("\nError Input.");
+                    break;
+            }
+            if (infoInput == 2) {
+                boolean isAuthenticated = false;
+                for (int i = 0; i < registrationInfo.size(); i += 2) {
+                    if (registrationInfo.get(i).equals(username) && registrationInfo.get(i + 1).equals(password)) {
+                        isAuthenticated = true;
+                        break;
+                    }
+                }
+                if (isAuthenticated) {
+                    break;
+                }
+            }
+        }
+        System.out.println("\n*********************************************************");
+        System.out.println("\tWelcome, " + username + ". What would you like to do?"); 
+        System.out.println("*********************************************************");
+        while (true) {
+            System.out.print("\n[1.Payroll], [2.Numbering System], [3.Multiplication Table], [4.Exit]: ");
+            int inputChoice = user.nextInt();
+            user.nextLine(); 
+        
+            switch (inputChoice) {
+                case 1:
+                    // Payroll system code
+                    System.out.println("\n---------------------------------------------------------");
+                    System.out.println("\t\t\tPayroll:");
+                    System.out.println("---------------------------------------------------------");
+                    ArrayList<ArrayList<String>> payrollData = new ArrayList<>();
+
+                    boolean continuePayroll = true;
+                    while (continuePayroll) {
+                        System.out.println("1. Add Information");
+                        System.out.println("2. View Information");
+                        System.out.println("3. Delete Information");
+                        System.out.println("4. Go Back to Main Menu");
+                        System.out.println("5. Exit");
+                        System.out.print("Choose an option: ");
+                        int payrollChoice = user.nextInt();
+                        user.nextLine();
+
+                    switch (payrollChoice) {
+                        case 1: // Add Information
+                            ArrayList<String> Workers = new ArrayList<String>();
+
+                            // Add workers
+                            System.out.print("\nEnter Name: ");
+                            String Name = user.nextLine();
+                            Workers.add(Name);
+                            
+                            System.out.print("Enter Contact Number: ");
+                            long ContactNumber = user.nextLong();
+                            Workers.add(String.valueOf(ContactNumber));
+                            user.nextLine();
+
+                            System.out.print("Enter Department: ");
+                            String Department = user.nextLine();
+                            Workers.add(Department);
+
+                            System.out.print("Enter Designation: ");
+                            String Designation = user.nextLine();
+                            Workers.add(Designation);
+
+                            boolean validInput = false;
+                            double monthPay = 0;
+                            double weekPay = 0;
+                            double dailyPay = 0;
+                    
+                            String input = "";
+                            while (!validInput) {
+                                System.out.print("Choose Salary Type (Monthly/Weekly/Daily) [M/W/D]: ");
+                                input = user.nextLine().toUpperCase();
+                    
+                                switch (input) {
+                                    case "M":
+                                    case "MONTHLY":
+                                        System.out.print("Enter Your Monthly Salary: ");
+                                        String monthlyInput = user.nextLine();
+                                        monthPay = Double.parseDouble(monthlyInput);
+                                        validInput = true;
+                                        break;
+                                    case "W":
+                                    case "WEEKLY":
+                                        System.out.print("Enter Your Weekly Salary: ");
+                                        String weeklyInput = user.nextLine();
+                                        weekPay = Double.parseDouble(weeklyInput);
+                                        validInput = true;
+                                        break;
+                                    case "D":
+                                    case "DAILY":
+                                        System.out.print("Enter Your Daily Salary: ");
+                                        String dailyInput = user.nextLine();
+                                        dailyPay = Double.parseDouble(dailyInput);
+                                        validInput = true;
+                                        break;
+                                    default:
+                                        System.out.println("\nInvalid input Salary Type");
+                                        break;
+                                }    
+                            }
+                            
+                            System.out.print("Enter Number of Absent: ");
+                            int absentInput = user.nextInt();
+
+                            System.out.print("Enter Overtime Hours: ");
+                            double overtimeInput = user.nextDouble();
+
+                            // Salary Calculations
+                            double totalPayment = ((monthPay) + (weekPay * 4) + (dailyPay * 28));
+
+                            // Absent Deduction Calculations
+                            double absentDeduction = absentInput * (totalPayment / 28);
+
+                            // Overtime Bonus Calculations
+                            double hourlyRate = totalPayment / 160;
+                            double overtimeBonus = overtimeInput * (hourlyRate * 1.5);
+
+                            // Tax Deduction Calculations (monthly basis)
+                            double tax = 0;
+                            if (totalPayment <= 10000) {
+                                tax = 0;
+                            } else if (totalPayment <= 30000) {
+                                tax = (totalPayment - 10000) * 0.10;
+                            } else {
+                                tax = (20000 * 0.10) + ((totalPayment - 30000) * 0.20);
+                            }
+                            double taxDeduction = tax;
+
+                            // Gross Amount Calculations
+                            double grossAmount = totalPayment;
+
+                            // Final Payment Calculations
+                            double netPay = (totalPayment + overtimeBonus) - (absentDeduction + taxDeduction);
+
+                            // Convert Calculations into String to store in Array
+                            Workers.add(String.valueOf(totalPayment));
+                            Workers.add(String.valueOf(absentDeduction));
+                            Workers.add(String.valueOf(overtimeBonus));
+                            Workers.add(String.valueOf(taxDeduction));
+                            Workers.add(String.valueOf(grossAmount));
+                            Workers.add(String.valueOf(netPay));
+
+                            // Add the worker's data to payrollData
+                            payrollData.add(Workers);
+                            
+                            System.out.println("\nInformation Added Successfully!");
+                            break;
+                        
+                        // View Information
+                        case 2: 
+                            if (payrollData.isEmpty()) {
+                                System.out.println("\nNo payroll information available.");
+                            } else {
+                                System.out.println("\n---------------------------------------------------------");
+                                for (int i = 0; i < payrollData.size(); i++) {
+                                    ArrayList<String> worker = payrollData.get(i);
+                                    System.out.printf("Worker #%d\n", i + 1);
+                                    System.out.printf("Name: %s\n", worker.get(0));
+                                    System.out.printf("Contact Number: %s\n", worker.get(1));
+                                    System.out.printf("Department: %s\n", worker.get(2));
+                                    System.out.printf("Designation: %s\n", worker.get(3));
+                                    System.out.printf("Total Payment: %.2f\n", Double.parseDouble(worker.get(4)));
+                                    System.out.printf("Absent Deduction: %.2f\n", Double.parseDouble(worker.get(5)));
+                                    System.out.printf("Overtime Bonus: %.2f\n", Double.parseDouble(worker.get(6)));
+                                    System.out.printf("Tax Deduction: %.2f\n", Double.parseDouble(worker.get(7)));
+                                    System.out.printf("Gross Payment: %.2f\n", Double.parseDouble(worker.get(8)));
+                                    System.out.printf("Net Payment: %.2f\n", Double.parseDouble(worker.get(9)));
+                                    System.out.println("---------------------------------------------------------");
+                                }
+                            }
+                            break;
+                        
+                        // Delete Information
+                        case 3: 
+                            if (payrollData.isEmpty()) {
+                                System.out.println("\nNo payroll information available to delete.");
+                            } else {
+                                System.out.print("Enter the number of the worker to delete (1 to " + payrollData.size() + "): ");
+                                int workerToDelete = user.nextInt() - 1;
+
+                                if (workerToDelete >= 0 && workerToDelete < payrollData.size()) {
+                                    payrollData.remove(workerToDelete);
+                                    System.out.println("\nInformation deleted successfully.");
+                                } else {
+                                    System.out.println("Invalid worker number.");
+                                }
+                            }
+                            break;
+                        
+                        // Go Back to Main Menu
+                        case 4: 
+                            continuePayroll = false;
+                            break;
+                        
+                        // Exit
+                        case 5: 
+                            System.out.println("\nExiting...");
+                            return;
+
+                        default:
+                            System.out.println("\nInvalid choice. Please try again.\n");
+                            break;
+                    }
+
+                    if (!continuePayroll) {
+                        System.out.println("\nReturning to Main Menu...");
+                    }
+                }
+                break;
+        
+                case 2:
+                    // Numbering system code
+                    boolean continueNumberingSystem = true;
+                    while (continueNumberingSystem) {
+                        System.out.println("\n---------------------------------------------------------");
+                        System.out.println("\t\t   Numbering System:");
+                        System.out.println("---------------------------------------------------------");
+                        System.out.println("1. Binary \n2. Decimal \n3. Octal \n4. Go Back \n5. Exit");
+                        System.out.print("Choose what type: ");
+                        int numberingSystemChoice = user.nextInt();
+                        user.nextLine();
+                
+                        switch (numberingSystemChoice) {
+                            case 1:
+                                // Binary code
+                                boolean continueBinary = true;
+                                while (continueBinary) {
+                                    System.out.print("Enter Binary Value: ");
+                                    String binaryInput = user.nextLine();
+                
+                                    // Binary to Decimal conversion using multiplication
+                                    int decimal = 0;
+                                    int multiplier = 1;
+                                    boolean isValidBinary = true;
+                
+                                    for (int i = binaryInput.length() - 1; i >= 0; i--) {
+                                        char bit = binaryInput.charAt(i);
+                                        if (bit == '1') {
+                                            decimal += multiplier;
+                                        } else if (bit == '0') {
+                                            // Valid binary bit, do nothing here 
+                                        } else {
+                                            System.out.println("\nInvalid binary input. Please try again.");
+                                            isValidBinary = false;
+                                            break;
+                                        }
+                                        multiplier *= 2;
+                                    }
+                
+                                    if (!isValidBinary) {
+                                        continue; // Ask the user for input again
+                                    }
+                                    System.out.println("---------------------------------------------------------");
+                                    System.out.println("The decimal value is: " + decimal);
+                
+                                    // Binary to Octal conversion
+                                    String octal = "";
+                                    int octalConver = decimal;
+                                    while (octalConver > 0) {
+                                        octal = (octalConver % 8) + octal;
+                                        octalConver /= 8;
+                                    }
+                                    System.out.println("The octal value is: " + octal);
+                                    System.out.println("---------------------------------------------------------");
+                
+                                    // Ask the user for next action
+                                    System.out.println("\n1. Go Back to Numbering System Menu \n2. Redo Conversion \n3. Exit");
+                                    System.out.print("Choose an option: ");
+                                    int nextChoice = user.nextInt();
+                                    user.nextLine();
+                
+                                    switch (nextChoice) {
+                                        case 1:
+                                            // Go back to Numbering System Menu
+                                            continueBinary = false;
+                                            break;
+                                        case 2:
+                                            // Redo the conversion
+                                            System.out.println("\nRedoing the conversion...");
+                                            break;
+                                        case 3:
+                                            System.out.println("\nExiting...");
+                                            System.exit(0);
+                                            break;
+                                        default:
+                                            System.out.println("\nInvalid choice. Returning to the numbering system menu...");
+                                            continueBinary = false;
+                                            break;
+                                    }
+                                }
+                                break;
+                
+                            case 2:
+                                // Decimal code
+                                boolean continueDecimal = true;
+                                while (continueDecimal) {
+                                    System.out.print("Enter Decimal Value: ");
+                                    int numberOfDecimalValue = user.nextInt();
+                                    user.nextLine();
+                
+                                    int decimal = numberOfDecimalValue;
+                
+                                    // Decimal to Binary conversion
+                                    String binary = "";
+                                    int decimalConver = decimal;
+                                    while (decimalConver > 0) {
+                                        binary = (decimalConver % 2) + binary;
+                                        decimalConver /= 2;
+                                    }
+                                    System.out.println("---------------------------------------------------------");
+                                    System.out.println("The binary value is: " + binary);
+                
+                                    // Decimal to Octal conversion
+                                    String octal = "";
+                                    decimalConver = decimal;
+                                    while (decimalConver > 0) {
+                                        octal = (decimalConver % 8) + octal;
+                                        decimalConver /= 8;
+                                    }
+                                    System.out.println("The octal value is: " + octal);
+                                    System.out.println("---------------------------------------------------------");
+                
+                                    // Ask the user for next action
+                                    System.out.println("\n1. Go Back to Numbering System Menu \n2. Redo Conversion \n3. Exit");
+                                    System.out.print("Choose an option: ");
+                                    int nextChoice = user.nextInt();
+                                    user.nextLine();
+                
+                                    switch (nextChoice) {
+                                        case 1:
+                                            // Go back to Numbering System Menu
+                                            continueDecimal = false;
+                                            break;
+                                        case 2:
+                                            // Redo the conversion
+                                            System.out.println("\nRedoing the conversion...");
+                                            break;
+                                        case 3:
+                                            System.out.println("\nExiting...");
+                                            System.exit(0);
+                                            break;
+                                        default:
+                                            System.out.println("\nInvalid choice. Returning to the numbering system menu...");
+                                            continueDecimal = false;
+                                            break;
+                                    }
+                                }
+                                break;
+                
+                            case 3:
+                                // Octal code
+                                boolean continueOctal = true;
+                                while (continueOctal) {
+                                    System.out.print("Enter Octal Value: ");
+                                    String octalInput = user.nextLine();
+                
+                                    // Octal to Decimal conversion using multiplication
+                                    int decimal = 0;
+                                    int multiplier = 1;
+                                    boolean isValidOctal = true;
+                
+                                    for (int i = octalInput.length() - 1; i >= 0; i--) {
+                                        char digit = octalInput.charAt(i);
+                                        if (digit >= '0' && digit <= '7') {
+                                            decimal += (digit - '0') * multiplier;
+                                        } else {
+                                            System.out.println("\nInvalid octal input. Please try again.");
+                                            isValidOctal = false;
+                                            break;
+                                        }
+                                        multiplier *= 8;
+                                    }
+                
+                                    if (!isValidOctal) {
+                                        continue;
+                                    }
+                                    
+                                    System.out.println("---------------------------------------------------------");
+                                    System.out.println("The decimal value is: " + decimal);
+                
+                                    // Octal to Binary conversion
+                                    String binary = "";
+                                    int octalBinary = decimal;
+                                    while (octalBinary > 0) {
+                                        binary = (octalBinary % 2) + binary;
+                                        octalBinary /= 2;
+                                    }
+                                    System.out.println("The binary value is: " + binary);
+                                    System.out.println("---------------------------------------------------------");
+                
+                                    // Ask the user for next action
+                                    System.out.println("\n1. Go Back to Numbering System Menu \n2. Redo Conversion \n3. Exit");
+                                    System.out.print("Choose an option: ");
+                                    int nextChoice = user.nextInt();
+                                    user.nextLine();
+                
+                                    switch (nextChoice) {
+                                        case 1:
+                                            // Go back to Numbering System Menu
+                                            continueOctal = false;
+                                            break;
+                                        case 2:
+                                            // Redo the conversion
+                                            System.out.println("\nRedoing the conversion...");
+                                            break;
+                                        case 3:
+                                            System.out.println("\nExiting...");
+                                            System.exit(0);
+                                            break;
+                                        default:
+                                            System.out.println("\nInvalid choice. Returning to the numbering system menu...");
+                                            continueOctal = false;
+                                            break;
+                                    }
+                                }
+                                break;
+                
+                            case 4:
+                                // Go back to the previous menu
+                                continueNumberingSystem = false;
+                                break;
+                
+                            case 5:
+                                // Exit code
+                                System.out.println("\nExiting...");
+                                return;
+                
+                            default:
+                                System.out.println("\nError Input.");
+                                break;
+                        }
+                    }
+                break;
+                     
+                case 3:
+                    // Multiplication table code
+                    boolean continueMultiplicationTable = true;
+                    while (continueMultiplicationTable) {
+                        System.out.println("\n---------------------------------------------------------");
+                        System.out.println("\t\tMultiplication Table:");
+                        System.out.println("---------------------------------------------------------");
+                        System.out.print("Enter the value for the multiplication table (1-10): ");
+                        int number = user.nextInt();
+                        user.nextLine();
+                        
+                        //Input Checker
+                        if (number < 1 || number > 10) {
+                            System.out.println("\nInvalid input. Please enter a value between 1 and 10.");
+                            continue;
+                        }
+
+                        System.out.println("Multiplication Table for " + number + ":");
+                        for (int i = 1; i <= 10; i++) {
+                            System.out.printf("%d x %d = %d%n", number, i, number * i);
+                        }
+                        System.out.println("---------------------------------------------------------");
+
+                        System.out.println("1. Go Back to Main Menu \n2. Redo Multiplication Table \n3. Exit");
+                        System.out.print("Choose an option: ");
+                        int nextChoice = user.nextInt();
+                        user.nextLine();
+
+                        switch (nextChoice) {
+                            case 1:
+                                // Go back to the main menu
+                                continueMultiplicationTable = false;
+                                break;
+                            case 2:
+                                // Redo the multiplication table
+                                System.out.println("\nRedoing the multiplication table...");
+                                break;
+                            case 3:
+                                System.out.println("\nExiting...");
+                                System.exit(0);
+                                break;
+                            default:
+                                System.out.println("\nInvalid choice. Returning to the main menu...");
+                                continueMultiplicationTable = false;
+                                break;
+                        }
+                    }
+                    break;
+                    
+                case 4:
+                    System.out.println("\nExiting...");
+                    return;
+        
+                default:
+                    System.out.println("\nError Input.");
+                    break;
+                }
+            }
+        }
+    }
