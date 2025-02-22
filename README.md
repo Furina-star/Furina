@@ -1,2 +1,3 @@
 # Furina
-Furina repository
+Programming file for my college
+
