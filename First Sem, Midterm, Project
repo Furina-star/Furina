@@ -1,0 +1,318 @@
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+public class App {
+
+    //Colors
+    public static final String RESET = "\033[0m";  // Text Reset
+    public static final String RED = "\033[0;31m";   
+    public static final String BLUE = "\033[0;34m";
+    public static final String LIGHT_BLUE = "\033[1;34m"; 
+    public static final String BOLD = "\033[1m";
+
+    //Main Method
+    public static void main (String []args) throws InterruptedException {
+        long startTime = System.nanoTime();
+        Scanner user = new Scanner(System.in);
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss a");
+        System.out.println(LIGHT_BLUE + BOLD + "\n\n\t\t\t   WELCOME TO FURINA INSTITUTION" + RESET);
+        System.out.println(BLUE + BOLD + "**************************** ( I N F O R M A T I O N ) ****************************\n" + RESET);
+            System.out.print("Enter ID: ");
+            String id = user.nextLine();
+
+            System.out.print("Enter Last Name: ");
+            String lastName = user.nextLine();
+
+            System.out.print("Enter First Name: ");
+            String firstName = user.nextLine();
+
+            System.out.print("Enter Middle Name: ");
+            String middleName = user.nextLine();
+
+            String gender;
+            while (true) {
+                System.out.print("Enter your gender (Male/Female or M/F): ");
+                gender = user.nextLine().trim();
+
+                if (gender.equalsIgnoreCase("Male") || gender.equalsIgnoreCase("M")) {
+                    System.out.println("Valid gender: Male\n");
+                    break;
+                } else if (gender.equalsIgnoreCase("Female") || gender.equalsIgnoreCase("F")) {
+                    System.out.println("Valid gender: Female\n");
+                    break;
+                } else {
+                    System.out.println("\nError: Please enter a Valid Gender.");
+                }
+            }
+
+            long contact;
+            long minLimit = 1000000000L;
+            long maxLimit = 9999999999L;
+            while (true) {
+            System.out.print("Enter your contact number: ");
+            String contactInput = user.nextLine();
+
+            try {
+                contact = Long.parseLong(contactInput);
+                if (contact < minLimit || contact > maxLimit) {
+                    System.out.println("Error: Contact number is Invalid.\n");
+                } else {
+                    System.out.println("Valid contact number: " + contact + "\n");
+                    break;
+                }
+                } catch (Exception e) {
+                    System.out.println("\nInvalid input. Please enter a valid contact number.");
+                }
+            }
+
+            System.out.print("Enter Department: ");
+            String department = user.nextLine();
+
+            System.out.print("Enter Designation: ");
+            String designation = user.nextLine();
+
+            boolean validInput = false;
+            double monthpay = 0;
+            double weekpay = 0;
+            double dailypay = 0;
+
+            while (!validInput) {
+            System.out.print("Choose Salary Type (Monthly/Weekly/Daily) [M/W/D]: ");
+            String input = user.nextLine().toUpperCase();
+
+            switch (input) {
+                case "M":
+                case "MONTHLY":
+                    System.out.print("Enter Your Monthly Salary: ");
+                    String monthlyInput = user.nextLine();
+                    monthpay = Double.parseDouble(monthlyInput);
+                    validInput = true;
+                    break;
+                case "W":
+                case "WEEKLY":
+                    System.out.print("Enter Your Weekly Salary: ");
+                    String weeklyInput = user.nextLine();
+                    weekpay = Double.parseDouble(weeklyInput);
+                    validInput = true;
+                    break;
+                case "D":
+                case "DAILY":
+                    System.out.print("Enter Your Daily Salary: ");
+                    String dailyInput = user.nextLine();
+                    dailypay = Double.parseDouble(dailyInput);
+                    validInput = true;
+                    break;
+                default:
+                    System.out.println("\nInvalid input Salary Type");
+                    break;
+             }
+            }
+
+            System.out.print("Enter Number of Absent: ");
+            String absentInput = user.nextLine();
+            int numberOfMissing = Integer.parseInt(absentInput);
+            
+
+        System.out.println(LIGHT_BLUE + BOLD + "\n******************************** ( B O N U S E S ) ********************************\n" + RESET );
+
+            System.out.print("Enter 13th Monthly Salary: ");
+            double thirteenthMonthPay = user.nextDouble();
+            System.out.print("Enter Your 14th Monthly Salary: ");
+            double fourteenthMonthPay = user.nextDouble();
+            System.out.print("Enter Overtime Hours: ");
+            int overtimeHours = user.nextInt();
+
+            double totalPayment = ((monthpay) + (weekpay * 4) + (dailypay * 28));
+            double absentRate = (totalPayment / 28) * numberOfMissing;
+            
+            double hourlyRate = totalPayment / 22 / 8;
+            double overtimeRate = hourlyRate * 1.5;
+            double calculatedOvertimePay = overtimeHours * overtimeRate;
+
+            double basicSalary = totalPayment - absentRate;
+
+            double retirementBonusPercentage = 0.10;
+            double retirement = basicSalary * retirementBonusPercentage;
+
+            double performanceBonusPercentage = 0;
+                while (true) {
+                    System.out.print("Enter Performance Bonus Percentage: ");
+                    performanceBonusPercentage = user.nextDouble();
+            
+                    if (performanceBonusPercentage >= 0 && performanceBonusPercentage <= 100) {
+                        performanceBonusPercentage /= 100;
+                        break; 
+                    } else {
+                        System.out.println("\nError: Please enter a valid percentage between 0 and 100.");
+                    }
+                }
+
+            double performanceBonus = basicSalary * performanceBonusPercentage;
+
+        System.out.println(LIGHT_BLUE + BOLD + "\n***************************** ( D E D U C T I O N S ) *****************************\n" + RESET);
+
+            System.out.print("Enter PhilHealth: ");
+            double philHealth = user.nextDouble();
+            System.out.print("Enter Pag-Ibig: ");
+            double pagIbig = user.nextDouble();
+            System.out.print("Enter SSS: ");
+            double sss = user.nextDouble();
+
+        System.out.println(LIGHT_BLUE + BOLD + "\n************************ ( L O A N C A L C U L A T I O N ) ************************\n" + RESET);
+        
+            double monthlyLPayment = 0;
+            double totalLoanPayment = 0;
+            double totalInterest = 0;
+            double principal = 0;
+            double annualInterestRate = 0;
+            int loanTermInYears = 0;
+        
+            boolean hasLoan = false;
+            String response;
+
+            while (true) {
+                System.out.print("Do you have a loan? (Yes/No): ");
+                response = user.next();
+
+                if (response.equalsIgnoreCase("Yes") || response.equalsIgnoreCase("y")) {
+                    hasLoan = true;
+                    break;
+                } else if (response.equalsIgnoreCase("No") || response.equalsIgnoreCase("n")) {
+                    System.out.println("No loan to process.");
+                    break;
+                } else {
+                    System.out.println("\nPlease enter a valid response.");
+                }
+            }
+
+            if (hasLoan) {
+                System.out.print("Enter Principal Loan Amount: ");
+                principal = user.nextDouble();
+                boolean interestInput = false;
+
+            while (!interestInput) {
+                System.out.print("Enter Annual Interest Rate (in %): ");
+                annualInterestRate = user.nextDouble();
+
+                if (annualInterestRate >= 0 && annualInterestRate <= 20) {
+                    interestInput = true;
+                } else {
+                    System.out.println("\nPlease enter a valid interest rate between 0% and 20%.");
+                }
+            }
+
+            System.out.print("Enter Loan Term (in years): ");
+            loanTermInYears = user.nextInt();
+            }
+
+            monthlyLPayment = calculateMonthlyPayment(principal, annualInterestRate, loanTermInYears);
+            totalLoanPayment = monthlyLPayment * loanTermInYears * 12;
+            totalInterest = totalLoanPayment - principal;
+
+        System.out.println(LIGHT_BLUE + "\n***********************************************************************************\n\n\n" + RESET);
+        
+            showProgress();
+            System.out.println(BLUE+"Output: \n\n\n"+RESET);
+
+        System.out.println(LIGHT_BLUE + "\n***********************************************************************************\n" + RESET);    
+
+            System.out.println("**Current Date: " + currentDateTime.format(formatter));
+            System.out.println("**FURINA INSTITUTION");
+
+        System.out.println(LIGHT_BLUE + "-----------------------------------------------------------------------------------" + RESET);
+            System.out.println(BLUE + BOLD + "\t\t\t\t   P A Y S L I P\n" + RESET);
+            System.out.printf("%-15s %-15s %-21s Name: %-15s%n", "ID: " + id, "", "", lastName + ", " + firstName + " " + middleName);
+            System.out.printf("%-15s %-15s %-21s Department: %-15s%n", "Gender: " + gender, "", "", department);
+            String contactStr = String.valueOf(contact);
+            System.out.printf("%-15s %-15s %-17s Designation: %-15s%n", "Contact: " + contactStr, "", "", designation);
+
+            double incomeTax = calculateIncomeTax(basicSalary);
+            String numberOfMissingStr = String.valueOf(numberOfMissing);
+        
+            System.out.printf("%-15s %-15s %-15s Basic Salary: %-15s%n", "Number of Absent/s: " + numberOfMissingStr, "", "", String.format("%.2f" , basicSalary));
+        System.out.println(BLUE + "___________________________________________________________________________________" + RESET);
+        System.out.println(LIGHT_BLUE + "-----------------------------------------------------------------------------------" + RESET);
+
+
+        System.out.println(LIGHT_BLUE + "\n-----------------------------------------------------------------------------------" + RESET);
+            System.out.println(BLUE + BOLD + "\t\t\t\t   B O N U S E S\n" + RESET);
+            System.out.printf("%-20s: %.2f\t\t\t  %s%-20s: %.2f%n", "13th Monthly Salary", thirteenthMonthPay, "", "14th Monthly Salary", fourteenthMonthPay);
+            System.out.printf("%-20s: %.2f\t\t\t  %s%-20s: %.2f%n", "Performance Rate", performanceBonus, "", "Overtime Rate", calculatedOvertimePay);
+            double totalBonuses = thirteenthMonthPay + fourteenthMonthPay + calculatedOvertimePay + performanceBonus;
+            System.out.printf("%nTotal Bonuses: %.2f", totalBonuses);
+        System.out.println(BLUE + "\n___________________________________________________________________________________" + RESET);
+        System.out.println(LIGHT_BLUE + "-----------------------------------------------------------------------------------" + RESET);
+ 
+        
+        System.out.println(LIGHT_BLUE + "\n-----------------------------------------------------------------------------------" + RESET);
+        System.out.println(BLUE + BOLD + "\t\t\t\tD E D U C T I O N S\n" + RESET);
+            System.out.printf("%-20s: %.2f\t\t\t  %s%-20s: %.2f%n", "PhilHealth", philHealth, "", "Pag-Ibig", pagIbig);
+            System.out.printf("%-20s: %.2f\t\t\t  %s%-20s: %.2f%n", "Income Tax", incomeTax, "", "SSS", sss);
+            System.out.printf("%-20s: %.2f\t\t\t  %s%-20s: %.2f%n", "Retirement Rate", retirement, "", "Monthly Loan Rate", (monthlyLPayment == 0 ? 0.00 : monthlyLPayment));
+            System.out.printf("%-20s: %.2f\t\t\t  %s%-20s: %.2f%n", "Total Loan Rate", totalLoanPayment, "", "Interest Rate", totalInterest);        
+
+            double loanDeduction = monthlyLPayment; 
+            double totalDeductions = philHealth + pagIbig + sss + incomeTax + retirement + loanDeduction;
+            System.out.printf("\nTotal Deductions: %.2f", totalDeductions);
+            System.out.println(BLUE + "\n___________________________________________________________________________________" + RESET);
+        System.out.println(LIGHT_BLUE + "-----------------------------------------------------------------------------------" + RESET);
+
+
+            System.out.printf("\n**Gross: %.2f", totalPayment + totalBonuses);
+            System.out.printf("\n**Net: %.2f"  , (basicSalary + totalBonuses) - totalDeductions);
+            System.out.println(BLUE + "\n\n**Thank you for being a part of Furina Institution!" + RESET); 
+        System.out.println(LIGHT_BLUE + "***********************************************************************************\n" + RESET);    
+
+        long endTime = System.nanoTime();
+        long duration = endTime - startTime;
+
+        long durationInSeconds = duration / 1_000_000_000;
+        long minutes = durationInSeconds / 60;
+        long seconds = durationInSeconds % 60;
+
+        System.out.printf("Execution time: %02d:%02d%n", minutes, seconds);
+        }
+
+    //Tax Method
+    public static double calculateIncomeTax(double basicSalary) {
+        double tax = 0;
+    
+        if (basicSalary <= 10000) {
+            tax = 0;
+        } else if (basicSalary <= 30000) {
+            tax = (basicSalary - 10000) * 0.10;
+        } else {
+            tax = (20000 * 0.10) + ((basicSalary - 30000) * 0.20); 
+        }
+    
+        return tax;
+    }
+
+    //Loan Method
+    public static double calculateMonthlyPayment(double principal, double annualInterestRate, int loanTermInYears) {
+        if (principal == 0) {
+            return 0; 
+        }
+
+        double r = (annualInterestRate / 100) / 12;
+        int n = loanTermInYears * 12; 
+
+        return principal * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+    }
+
+    //Delay Method
+    public static void showProgress() throws InterruptedException {
+        for (int j = 0; j < 3; j++) { 
+            System.out.print(BLUE+"Processing Information"+RESET);
+            for (int i = 0; i < 3; i++) { 
+                Thread.sleep(500); 
+                System.out.print(BLUE+"."+RESET);
+            }
+            Thread.sleep(500); 
+            System.out.print("\r"); 
+            System.out.print("                      \r"); 
+        }
+        System.out.println(BLUE+"Processing Complete!\n"+RESET);
+    }
+}
