@@ -1,4 +1,4 @@
-College Activities
-# Furina(BELLO, MICHAEL LORENZ B.)
+Furina(BELLO, MICHAEL LORENZ B.)
+#College Activities
 Programming file for my college
 
